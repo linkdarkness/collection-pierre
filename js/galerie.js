@@ -1,92 +1,200 @@
-javascript
-fetch("images.json")
+fetch("pierres.json")
+    .then(response => {
 
-    .then(response => response.json())
-
-    .then(images => {
-
-        const grandeImage =
-            document.getElementById("grandeImage");
-
-        const miniatures =
-            document.getElementById("miniatures");
-
-
-        // Première image
-
-        if (images.length > 0) {
-
-            grandeImage.src =
-                "images/" + images[0];
-
-            grandeImage.alt =
-                images[0];
-
+        if (!response.ok) {
+            throw new Error("Impossible de charger pierres.json");
         }
 
+        return response.json();
 
-        // Création des miniatures
+    })
 
-        images.forEach((image, index) => {
+    .then(data => {
 
-            const miniature =
+        const galerie =
+            document.getElementById("galerie");
+
+
+        data.pierres.forEach(pierre => {
+
+
+            // =========================
+            // CONTENEUR DE LA PIERRE
+            // =========================
+
+            const bloc =
+                document.createElement("section");
+
+            bloc.className = "pierre";
+
+
+            // =========================
+            // INFORMATIONS
+            // =========================
+
+            const informations =
+                document.createElement("div");
+
+            informations.className =
+                "informations";
+
+
+            informations.innerHTML = `
+                <h2>${pierre.nom}</h2>
+
+                <p>
+                    <strong>Origine :</strong>
+                    ${pierre.origine}
+                </p>
+
+                <p>
+                    ${pierre.description}
+                </p>
+            `;
+
+
+            // =========================
+            // GRANDE IMAGE
+            // =========================
+
+            const grandeImage =
                 document.createElement("img");
 
-
-            miniature.src =
-                "images/" + image;
-
-
-            miniature.alt =
-                image;
+            grandeImage.className =
+                "grande-image";
 
 
-            miniature.classList.add("miniature");
+            grandeImage.src =
+                "images/" + pierre.photos[0];
 
 
-            // Première miniature sélectionnée
-
-            if (index === 0) {
-
-                miniature.classList.add("active");
-
-            }
+            grandeImage.alt =
+                pierre.nom;
 
 
-            // Clic sur une miniature
+            // =========================
+            // CONTENEUR GRANDE IMAGE
+            // =========================
 
-            miniature.addEventListener(
-                "click",
-                function() {
+            const grandeImageContainer =
+                document.createElement("div");
 
-                    grandeImage.src =
-                        "images/" + image;
+            grandeImageContainer.className =
+                "image-principale";
 
 
-                    // Retirer active
+            grandeImageContainer.appendChild(
+                grandeImage
+            );
 
-                    document
-                        .querySelectorAll(".miniature")
-                        .forEach(img => {
 
-                            img.classList.remove(
+            // =========================
+            // MINIATURES
+            // =========================
+
+            const miniatures =
+                document.createElement("div");
+
+            miniatures.className =
+                "miniatures";
+
+
+            pierre.photos.forEach(
+                (photo, index) => {
+
+                    const miniature =
+                        document.createElement("img");
+
+
+                    miniature.src =
+                        "images/" + photo;
+
+
+                    miniature.alt =
+                        pierre.nom;
+
+
+                    miniature.className =
+                        "miniature";
+
+
+                    // Première miniature active
+
+                    if (index === 0) {
+
+                        miniature.classList.add(
+                            "active"
+                        );
+
+                    }
+
+
+                    // =========================
+                    // CLIC
+                    // =========================
+
+                    miniature.addEventListener(
+                        "click",
+                        () => {
+
+
+                            grandeImage.src =
+                                "images/" + photo;
+
+
+                            // Retirer active
+
+                            miniatures
+                                .querySelectorAll(
+                                    ".miniature"
+                                )
+                                .forEach(img => {
+
+                                    img.classList.remove(
+                                        "active"
+                                    );
+
+                                });
+
+
+                            // Ajouter active
+
+                            miniature.classList.add(
                                 "active"
                             );
 
-                        });
+                        }
+                    );
 
 
-                    // Ajouter active
-
-                    miniature.classList.add(
-                        "active"
+                    miniatures.appendChild(
+                        miniature
                     );
 
                 }
             );
 
 
-            miniatures.appendChild(miniature);
+            // =========================
+            // ASSEMBLAGE
+            // =========================
+
+            bloc.appendChild(
+                informations
+            );
+
+            bloc.appendChild(
+                grandeImageContainer
+            );
+
+            bloc.appendChild(
+                miniatures
+            );
+
+
+            galerie.appendChild(
+                bloc
+            );
 
         });
 
@@ -94,9 +202,6 @@ fetch("images.json")
 
     .catch(error => {
 
-        console.error(
-            "Erreur lors du chargement des images :",
-            error
-        );
+        console.error(error);
 
     });
