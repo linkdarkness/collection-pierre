@@ -397,3 +397,57 @@ img{
     display:block;
 }
 
+
+.pierre-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.pierre-card img {
+    display: block;
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+/* Zone contenant le texte */
+.pierre-info {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    color: white;
+    padding: 20px;
+
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+/* Apparition au survol */
+.pierre-card:hover .pierre-info {
+    opacity: 1;
+}
+
+/* Petit zoom de l'image */
+.pierre-card:hover img {
+    transform: scale(1.08);
+}
+
+.pierre-info h3 {
+    margin: 0 0 10px;
+    font-size: 24px;
+}
+
+.pierre-info p {
+    margin: 0;
+    font-size: 15px;
+}
