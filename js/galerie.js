@@ -1,199 +1,92 @@
-fetch("pierres.json")
-    .then(response => {
+fetch("images.json")
+    .then(response => response.json())
 
-        if (!response.ok) {
-            throw new Error("Impossible de charger pierres.json");
-        }
+    .then(images => {
 
-        return response.json();
+        const grandeImage =
+            document.getElementById("grandeImage");
 
-    })
-
-    .then(data => {
-
-        const galerie =
-            document.getElementById("galerie");
+        const miniatures =
+            document.getElementById("miniatures");
 
 
-        data.pierres.forEach(pierre => {
+        // Afficher la première photo
 
-
-            // =========================
-            // CONTENEUR DE LA PIERRE
-            // =========================
-
-            const bloc =
-                document.createElement("section");
-
-            bloc.className = "pierre";
-
-
-            // =========================
-            // INFORMATIONS
-            // =========================
-
-            const informations =
-                document.createElement("div");
-
-            informations.className =
-                "informations";
-
-
-            informations.innerHTML = `
-                <h2>${pierre.nom}</h2>
-
-                <p>
-                    <strong>Origine :</strong>
-                    ${pierre.origine}
-                </p>
-
-                <p>
-                    ${pierre.description}
-                </p>
-            `;
-
-
-            // =========================
-            // GRANDE IMAGE
-            // =========================
-
-            const grandeImage =
-                document.createElement("img");
-
-            grandeImage.className =
-                "grande-image";
-
+        if (images.length > 0) {
 
             grandeImage.src =
-                "images/" + pierre.photos[0];
+                "images/" + images[0];
+
+        }
 
 
-            grandeImage.alt =
-                pierre.nom;
+        // Créer les miniatures
+
+        images.forEach((image, index) => {
+
+            const miniature =
+                document.createElement("img");
 
 
-            // =========================
-            // CONTENEUR GRANDE IMAGE
-            // =========================
-
-            const grandeImageContainer =
-                document.createElement("div");
-
-            grandeImageContainer.className =
-                "image-principale";
+            miniature.src =
+                "images/" + image;
 
 
-            grandeImageContainer.appendChild(
-                grandeImage
+            miniature.alt =
+                "Photo " + (index + 1);
+
+
+            miniature.classList.add(
+                "miniature"
             );
 
 
-            // =========================
-            // MINIATURES
-            // =========================
+            // Première miniature sélectionnée
 
-            const miniatures =
-                document.createElement("div");
+            if (index === 0) {
 
-            miniatures.className =
-                "miniatures";
+                miniature.classList.add(
+                    "active"
+                );
 
-
-            pierre.photos.forEach(
-                (photo, index) => {
-
-                    const miniature =
-                        document.createElement("img");
+            }
 
 
-                    miniature.src =
-                        "images/" + photo;
+            // Changement de grande photo
+
+            miniature.addEventListener(
+                "click",
+                () => {
+
+                    grandeImage.src =
+                        "images/" + image;
 
 
-                    miniature.alt =
-                        pierre.nom;
+                    // Retirer la sélection
 
+                    document
+                        .querySelectorAll(".miniature")
+                        .forEach(img => {
 
-                    miniature.className =
-                        "miniature";
-
-
-                    // Première miniature active
-
-                    if (index === 0) {
-
-                        miniature.classList.add(
-                            "active"
-                        );
-
-                    }
-
-
-                    // =========================
-                    // CLIC
-                    // =========================
-
-                    miniature.addEventListener(
-                        "click",
-                        () => {
-
-
-                            grandeImage.src =
-                                "images/" + photo;
-
-
-                            // Retirer active
-
-                            miniatures
-                                .querySelectorAll(
-                                    ".miniature"
-                                )
-                                .forEach(img => {
-
-                                    img.classList.remove(
-                                        "active"
-                                    );
-
-                                });
-
-
-                            // Ajouter active
-
-                            miniature.classList.add(
+                            img.classList.remove(
                                 "active"
                             );
 
-                        }
-                    );
+                        });
 
 
-                    miniatures.appendChild(
-                        miniature
+                    // Sélectionner la miniature
+
+                    miniature.classList.add(
+                        "active"
                     );
 
                 }
             );
 
 
-            // =========================
-            // ASSEMBLAGE
-            // =========================
-
-            bloc.appendChild(
-                informations
-            );
-
-            bloc.appendChild(
-                grandeImageContainer
-            );
-
-            bloc.appendChild(
-                miniatures
-            );
-
-
-            galerie.appendChild(
-                bloc
+            miniatures.appendChild(
+                miniature
             );
 
         });
@@ -202,6 +95,9 @@ fetch("pierres.json")
 
     .catch(error => {
 
-        console.error(error);
+        console.error(
+            "Erreur de chargement :",
+            error
+        );
 
     });
