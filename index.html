@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Ma Collection de Pierres Précieuses</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -15,36 +15,22 @@
 
     <h1>Ma Collection de Pierres</h1>
 
-    <button id="menu-toggle">
-        ☰
-    </button>
 
     <nav id="menu">
 
-        <button onclick="afficherSection('collection')">
-            💎 Collection
-        </button>
-
-        <button onclick="afficherSection('galerie')">
-            📸 Galerie
-        </button>
-
-        <button onclick="afficherSection('apropos')">
-            ℹ️ À propos
-        </button>
-
+        <a href="index.html">
+        <button>💎 Collection</button>
+        </a>
+        <a href="galerie.html">
+        <button>📸 Gallerie</button>
+        </a>
+        <a href="apropos.html">
+        <button>ℹ️ À propos</button>
+        </a>
     </nav>
 
 </header>
 
-
-<section class="hero">
-    <h2>Bienvenue dans mon univers minéral</h2>
-    <p>
-        Découvrez une collection de pierres naturelles,
-        leurs origines, leurs vertues et leurs histoires.
-    </p>
-</section>
 
 <div class="recherche">
     <input 
@@ -1305,43 +1291,10 @@
     
     </div>
 
-</section>
-
-<section id="galerie" class="contenu cache">
-
-<h2>Galerie photos</h2>
-
-<div class="galerie">
-
-<img src="images/mineraux.png">
 
 
-</div>
-
-</section>
 
 
-<section id="apropos" class="contenu cache">
-
-<h2>À propos de ma collection</h2>
-
-<p>
-Cette collection rassemble des pierres choisies pour leur beauté,
-leur rareté et leur histoire. Chaque pierre possède ses propres
-formes, couleurs et caractéristiques naturelles.
-</p>
-
-</section>
-
-
-<footer>
-
-<p>
-© 2025 - Collection personnelle de pierres
-</p>
-
-</footer>
-
-<script src="script.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>
