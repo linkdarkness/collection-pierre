@@ -12,7 +12,11 @@
       --text: #f8fafc;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       font-family: system-ui, -apple-system, sans-serif;
@@ -32,6 +36,25 @@
       border-bottom: 1px solid #334155;
     }
 
+    h1 {
+      font-size: 1.4rem;
+    }
+
+    button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      background-color: var(--accent);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #ea580c;
+    }
+
     .layout {
       display: grid;
       grid-template-columns: 1fr 320px;
@@ -40,6 +63,7 @@
       flex: 1;
     }
 
+    /* Player vidéo responsive */
     .player-container {
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -61,8 +85,11 @@
       justify-content: center;
       height: 100%;
       color: #64748b;
+      text-align: center;
+      padding: 20px;
     }
 
+    /* Liste latérale */
     .sidebar {
       background: var(--card-bg);
       border-radius: 12px;
@@ -125,15 +152,20 @@
     .error-box {
       color: #f87171;
       font-size: 0.85rem;
-      padding: 10px;
+      padding: 12px;
       background: rgba(239, 68, 68, 0.1);
       border-radius: 6px;
       border: 1px solid #ef4444;
+      line-height: 1.4;
     }
 
     @media (max-width: 850px) {
-      .layout { grid-template-columns: 1fr; }
-      .sidebar { max-height: 400px; }
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        max-height: 400px;
+      }
     }
   </style>
 </head>
@@ -147,7 +179,7 @@
   <div class="layout">
     <main>
       <div class="player-container" id="player">
-        <div class="placeholder">Sélectionnez un modèle pour lancer la vidéo</div>
+        <div class="placeholder">Sélectionnez un modèle dans la liste pour démarrer le live</div>
       </div>
     </main>
 
@@ -158,76 +190,28 @@
   </div>
 
   <script>
-    const AFFILIATE_TAG = 'default'; // Remplacez par votre tag affilié si vous en avez un
+    const AFFILIATE_TAG = 'default'; // Remplacez par votre tag d'affilié Chaturbate
 
     async function fetchOnlineModels() {
-  const listContainer = document.getElementById('modelsList');
-  listContainer.innerHTML = 'Chargement des modèles...';
-
-  try {
-    // Appelle votre propre serveur PHP au lieu d'un proxy externe
-    const response = await fetch('api.php?track=' + AFFILIATE_TAG);
-    
-    if (!response.ok) {
-      throw new Error('Erreur serveur (' + response.status + ')');
-    }
-
-    const data = await response.json();
-
-    if (!Array.isArray(data) || data.length === 0) {
-      listContainer.innerHTML = '<p>Aucun modèle en ligne pour le moment.</p>';
-      return;
-    }
-
-    listContainer.innerHTML = '';
-
-    data.forEach(model => {
-      const card = document.createElement('div');
-      card.className = 'model-card';
-      card.onclick = () => selectModel(model.username);
-
-      card.innerHTML = `
-        <img src="${model.image_url}" alt="${model.username}" loading="lazy">
-        <div class="model-info">
-          <span class="model-name">${model.username}</span>
-          <span class="model-stats">👁 ${model.num_users || 0} spectateurs</span>
-        </div>
-      `;
-      listContainer.appendChild(card);
-    });
-
-  } catch (error) {
-    console.error('Détail de l\'erreur :', error);
-    listContainer.innerHTML = `
-      <div class="error-box">
-        <strong>Erreur de chargement :</strong><br>
-        ${error.message}.<br><br>
-        <em>Si vous testez en local sans serveur web (ex: protocole file://), hébergez les fichiers sur un serveur PHP (Apache/Nginx).</em>
-      </div>
-    `;
-  }
-}
-
- document.getElementById('modelsList');
-      listContainer.innerHTML = 'Chargement des modèles...';
-
-      // URL API officielle
-      const targetUrl = 'https://chaturbate.com/api/public/affiliates/onlinemodels/?wm=' + AFFILIATE_TAG + '&limit=20';
-      
-      // Passer par un proxy public pour contourner le blocage CORS du navigateur en local
-      const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl);
+      const listContainer = document.getElementById('modelsList');
+      listContainer.innerHTML = 'Chargement en cours...';
 
       try {
-        const response = await fetch(proxyUrl);
-        if (!response.ok) throw new Error('Erreur HTTP: ' + response.status);
+        // Interroge votre fichier api.php situé dans le même dossier
+        const response = await fetch('api.php?track=' + AFFILIATE_TAG);
         
-        const wrapperData = await response.json();
-        
-        // allorigins retourne les données sous forme de chaîne texte dans .contents
-        const data = JSON.parse(wrapperData.contents);
+        if (!response.ok) {
+          throw new Error('Erreur réseau / serveur (' + response.status + ')');
+        }
+
+        const data = await response.json();
+
+        if (data.error) {
+          throw new Error(data.error);
+        }
 
         if (!Array.isArray(data) || data.length === 0) {
-          listContainer.innerHTML = '<p>Aucun modèle trouvé ou réponse API vide.</p>';
+          listContainer.innerHTML = '<p>Aucun modèle en ligne actuellement.</p>';
           return;
         }
 
@@ -249,12 +233,12 @@
         });
 
       } catch (error) {
-        console.error('Détail de l\'erreur :', error);
+        console.error('Erreur API :', error);
         listContainer.innerHTML = `
           <div class="error-box">
-            <strong>Erreur de chargement :</strong><br>
-            ${error.message}.<br><br>
-            <em>Vérifiez votre connexion ou retentez dans quelques secondes.</em>
+            <strong>Impossible de charger la liste :</strong><br>
+            ${error.message}<br><br>
+            <em>Vérifiez que ce fichier et <code>api.php</code> sont bien hébergés sur un serveur Web (ex: Apache / Nginx / XAMPP).</em>
           </div>
         `;
       }
@@ -273,7 +257,7 @@
       `;
     }
 
-    // Lancer au chargement de la page
+    // Chargement automatique au lancement de la page
     window.addEventListener('DOMContentLoaded', fetchOnlineModels);
   </script>
 
