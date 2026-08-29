@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Directs Chaturbate</title>
+  <title>Plateforme Live</title>
   <style>
     :root {
       --bg: #0f172a;
       --card-bg: #1e293b;
+      --accent: #dc2626;
       --text: #f8fafc;
     }
 
@@ -33,59 +34,140 @@
 
     h1 { font-size: 1.4rem; }
 
-    .main-container {
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 20px;
       padding: 20px;
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
     }
 
-    .widget-box {
-      background: var(--card-bg);
+    .player-container {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
       border-radius: 12px;
-      padding: 16px;
       overflow: hidden;
     }
 
-    .widget-box h2 {
-      font-size: 1.1rem;
-      margin-bottom: 16px;
-      color: #94a3b8;
-    }
-
-    /* Ratio et responsive du widget */
-    .iframe-wrapper {
+    .player-container iframe {
       width: 100%;
-      height: 700px;
-      border: none;
-      border-radius: 8px;
+      height: 100%;
+      border: 0;
     }
 
-    @media (max-width: 768px) {
-      .iframe-wrapper {
-        height: 500px;
-      }
+    .sidebar {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar h2 {
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+    }
+
+    .models-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: auto;
+      max-height: calc(100vh - 150px);
+    }
+
+    .model-btn {
+      padding: 12px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .model-btn:hover {
+      border-color: var(--accent);
+      background: #1e293b;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #22c55e;
+      border-radius: 50%;
+    }
+
+    @media (max-width: 850px) {
+      .layout { grid-template-columns: 1fr; }
+      .models-list { max-height: 300px; }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Directs Chaturbate</h1>
+    <h1>Directs Live</h1>
   </header>
 
-  <div class="main-container">
-    <div class="widget-box">
-      <h2>Modèles en direct</h2>
-      <!-- Widget officiel Chaturbate géré directement par leurs serveurs -->
-      <iframe 
-        class="iframe-wrapper" 
-        src="https://chaturbate.com/affiliates/whitelabel/online_embed/?wm=default&limit=30" 
-        allowfullscreen>
-      </iframe>
-    </div>
+  <div class="layout">
+    <main>
+      <div class="player-container" id="player">
+        <!-- Lecteur actif par défaut -->
+        <iframe 
+          src="https://chaturbate.com/in/?tour=mL83&camp=default&track=default" 
+          allow="autoplay; fullscreen" 
+          allowfullscreen>
+        </iframe>
+      </div>
+    </main>
+
+    <aside class="sidebar">
+      <h2>Sélectionner un Salon</h2>
+      <div class="models-list" id="modelsList">
+        <!-- Liste statique d'exemples / salons populaires -->
+        <button class="model-btn" onclick="loadRoom('female')">
+          <span>Salon Femmes</span>
+          <span class="live-dot"></span>
+        </button>
+        <button class="model-btn" onclick="loadRoom('couples')">
+          <span>Salon Couples</span>
+          <span class="live-dot"></span>
+        </button>
+        <button class="model-btn" onclick="loadRoom('male')">
+          <span>Salon Hommes</span>
+          <span class="live-dot"></span>
+        </button>
+        <button class="model-btn" onclick="loadRoom('trans')">
+          <span>Salon Trans</span>
+          <span class="live-dot"></span>
+        </button>
+      </div>
+    </aside>
   </div>
+
+  <script>
+    const TRACK_TAG = 'default'; // Ton tag d'affiliation
+
+    function loadRoom(gender) {
+      const player = document.getElementById('player');
+      // Génère l'embed officiel par catégorie sans API
+      const embedUrl = `https://chaturbate.com/in/?tour=mL83&camp=default&track=${TRACK_TAG}&gender=${gender}`;
+
+      player.innerHTML = `
+        <iframe 
+          src="${embedUrl}" 
+          allow="autoplay; fullscreen"
+          allowfullscreen>
+        </iframe>
+      `;
+    }
+  </script>
 
 </body>
 </html>
