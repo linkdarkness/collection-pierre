@@ -8,7 +8,6 @@
     :root {
       --bg: #0f172a;
       --card-bg: #1e293b;
-      --accent: #dc2626;
       --text: #f8fafc;
     }
 
@@ -34,131 +33,38 @@
 
     h1 { font-size: 1.4rem; }
 
-    button {
-      padding: 8px 16px;
-      border: none;
-      border-radius: 6px;
-      background-color: var(--accent);
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-
-    button:hover {
-      background-color: #b91c1c;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 20px;
+    .main-container {
       padding: 20px;
       flex: 1;
-    }
-
-    /* Player vidéo responsive */
-    .player-container {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #000;
-      border-radius: 12px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .player-container iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    .placeholder {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      color: #64748b;
-      text-align: center;
-      padding: 20px;
+      flex-direction: column;
+      gap: 20px;
     }
 
-    /* Panneau latéral des modèles */
-    .sidebar {
+    .widget-box {
       background: var(--card-bg);
       border-radius: 12px;
       padding: 16px;
-      display: flex;
-      flex-direction: column;
-      max-height: calc(100vh - 120px);
+      overflow: hidden;
     }
 
-    .sidebar h2 {
+    .widget-box h2 {
       font-size: 1.1rem;
-      margin-bottom: 12px;
-    }
-
-    .models-list {
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .model-card {
-      display: flex;
-      gap: 12px;
-      background: #0f172a;
-      border-radius: 8px;
-      padding: 8px;
-      cursor: pointer;
-      transition: transform 0.1s ease;
-    }
-
-    .model-card:hover {
-      transform: translateY(-2px);
-      outline: 1px solid var(--accent);
-    }
-
-    .model-card img {
-      width: 80px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 4px;
-    }
-
-    .model-info {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .model-name {
-      font-weight: bold;
-      font-size: 0.9rem;
-    }
-
-    .model-stats {
-      font-size: 0.75rem;
+      margin-bottom: 16px;
       color: #94a3b8;
     }
 
-    .error-box {
-      color: #f87171;
-      font-size: 0.85rem;
-      padding: 12px;
-      background: rgba(239, 68, 68, 0.1);
-      border-radius: 6px;
-      border: 1px solid #ef4444;
-      line-height: 1.4;
+    /* Ratio et responsive du widget */
+    .iframe-wrapper {
+      width: 100%;
+      height: 700px;
+      border: none;
+      border-radius: 8px;
     }
 
-    @media (max-width: 850px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-      .sidebar {
-        max-height: 400px;
+    @media (max-width: 768px) {
+      .iframe-wrapper {
+        height: 500px;
       }
     }
   </style>
@@ -167,88 +73,19 @@
 
   <header>
     <h1>Directs Chaturbate</h1>
-    <button onclick="fetchOnlineModels()">Actualiser</button>
   </header>
 
-  <div class="layout">
-    <main>
-      <div class="player-container" id="player">
-        <div class="placeholder">Sélectionnez un modèle dans la liste pour démarrer le live</div>
-      </div>
-    </main>
-
-    <aside class="sidebar">
-      <h2>Modèles en ligne</h2>
-      <div class="models-list" id="modelsList">Chargement en cours...</div>
-    </aside>
+  <div class="main-container">
+    <div class="widget-box">
+      <h2>Modèles en direct</h2>
+      <!-- Widget officiel Chaturbate géré directement par leurs serveurs -->
+      <iframe 
+        class="iframe-wrapper" 
+        src="https://chaturbate.com/affiliates/whitelabel/online_embed/?wm=default&limit=30" 
+        allowfullscreen>
+      </iframe>
+    </div>
   </div>
-
-  <script>
-    const AFFILIATE_TAG = 'default'; // Remplace par ton tag d'affilié si nécessaire
-
-    async function fetchOnlineModels() {
-      const listContainer = document.getElementById('modelsList');
-      listContainer.innerHTML = 'Chargement en cours...';
-
-      try {
-        // Lecture directe du fichier static data.json généré par GitHub Actions
-        const response = await fetch('data.json?cache_bypass=' + Date.now());
-        
-        if (!response.ok) {
-          throw new Error('Données non disponibles (le premier workflow GitHub est-il terminé ?)');
-        }
-
-        const data = await response.json();
-
-        if (!Array.isArray(data) || data.length === 0) {
-          listContainer.innerHTML = '<p>Aucun modèle en ligne trouvé.</p>';
-          return;
-        }
-
-        listContainer.innerHTML = '';
-
-        data.forEach(model => {
-          const card = document.createElement('div');
-          card.className = 'model-card';
-          card.onclick = () => selectModel(model.username);
-
-          card.innerHTML = `
-            <img src="${model.image_url}" alt="${model.username}" loading="lazy">
-            <div class="model-info">
-              <span class="model-name">${model.username}</span>
-              <span class="model-stats">👁 ${model.num_users || 0} spectateurs</span>
-            </div>
-          `;
-          listContainer.appendChild(card);
-        });
-
-      } catch (error) {
-        console.error('Erreur API :', error);
-        listContainer.innerHTML = `
-          <div class="error-box">
-            <strong>Erreur de chargement :</strong><br>
-            ${error.message}
-          </div>
-        `;
-      }
-    }
-
-    function selectModel(username) {
-      const player = document.getElementById('player');
-      const embedUrl = `https://chaturbate.com/in/?tour=mL83&camp=default&track=${AFFILIATE_TAG}&room=${encodeURIComponent(username)}`;
-
-      player.innerHTML = `
-        <iframe 
-          src="${embedUrl}" 
-          allow="autoplay; fullscreen"
-          allowfullscreen>
-        </iframe>
-      `;
-    }
-
-    // Lancement de la lecture au chargement
-    window.addEventListener('DOMContentLoaded', fetchOnlineModels);
-  </script>
 
 </body>
 </html>
