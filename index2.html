@@ -3,20 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plateforme Live Chaturbate</title>
+  <title>Directs Chaturbate</title>
   <style>
     :root {
       --bg: #0f172a;
       --card-bg: #1e293b;
-      --accent: #f97316;
+      --accent: #dc2626;
       --text: #f8fafc;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: system-ui, -apple-system, sans-serif;
@@ -36,9 +32,7 @@
       border-bottom: 1px solid #334155;
     }
 
-    h1 {
-      font-size: 1.4rem;
-    }
+    h1 { font-size: 1.4rem; }
 
     button {
       padding: 8px 16px;
@@ -48,11 +42,6 @@
       color: white;
       font-weight: bold;
       cursor: pointer;
-      transition: background 0.2s ease;
-    }
-
-    button:hover {
-      background-color: #ea580c;
     }
 
     .layout {
@@ -63,7 +52,6 @@
       flex: 1;
     }
 
-    /* Player vidéo responsive */
     .player-container {
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -89,7 +77,6 @@
       padding: 20px;
     }
 
-    /* Liste latérale */
     .sidebar {
       background: var(--card-bg);
       border-radius: 12px;
@@ -118,11 +105,9 @@
       border-radius: 8px;
       padding: 8px;
       cursor: pointer;
-      transition: transform 0.1s ease;
     }
 
     .model-card:hover {
-      transform: translateY(-2px);
       outline: 1px solid var(--accent);
     }
 
@@ -156,23 +141,18 @@
       background: rgba(239, 68, 68, 0.1);
       border-radius: 6px;
       border: 1px solid #ef4444;
-      line-height: 1.4;
     }
 
     @media (max-width: 850px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-      .sidebar {
-        max-height: 400px;
-      }
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { max-height: 400px; }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Directs</h1>
+    <h1>Directs Chaturbate</h1>
     <button onclick="fetchOnlineModels()">Actualiser</button>
   </header>
 
@@ -190,28 +170,27 @@
   </div>
 
   <script>
-    const AFFILIATE_TAG = 'default'; // Remplacez par votre tag d'affilié Chaturbate
+    const AFFILIATE_TAG = 'default'; // Ton tag affilié
 
     async function fetchOnlineModels() {
       const listContainer = document.getElementById('modelsList');
       listContainer.innerHTML = 'Chargement en cours...';
 
+      // API Chaturbate via proxy CORS-Anywhere (compatible JS navigateur)
+      const targetApi = `https://chaturbate.com/api/public/affiliates/onlinemodels/?wm=${AFFILIATE_TAG}&limit=20`;
+      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetApi)}`;
+
       try {
-        // Interroge votre fichier api.php situé dans le même dossier
-        const response = await fetch('api.php?track=' + AFFILIATE_TAG);
+        const response = await fetch(proxyUrl);
         
         if (!response.ok) {
-          throw new Error('Erreur réseau / serveur (' + response.status + ')');
+          throw new Error('Erreur HTTP ' + response.status);
         }
 
         const data = await response.json();
 
-        if (data.error) {
-          throw new Error(data.error);
-        }
-
         if (!Array.isArray(data) || data.length === 0) {
-          listContainer.innerHTML = '<p>Aucun modèle en ligne actuellement.</p>';
+          listContainer.innerHTML = '<p>Aucun modèle en ligne.</p>';
           return;
         }
 
@@ -236,9 +215,8 @@
         console.error('Erreur API :', error);
         listContainer.innerHTML = `
           <div class="error-box">
-            <strong>Impossible de charger la liste :</strong><br>
-            ${error.message}<br><br>
-            <em>Vérifiez que ce fichier et <code>api.php</code> sont bien hébergés sur un serveur Web (ex: Apache / Nginx / XAMPP).</em>
+            <strong>Erreur de chargement :</strong><br>
+            ${error.message}
           </div>
         `;
       }
@@ -257,7 +235,6 @@
       `;
     }
 
-    // Chargement automatique au lancement de la page
     window.addEventListener('DOMContentLoaded', fetchOnlineModels);
   </script>
 
