@@ -42,6 +42,11 @@
       color: white;
       font-weight: bold;
       cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #b91c1c;
     }
 
     .layout {
@@ -52,6 +57,7 @@
       flex: 1;
     }
 
+    /* Player vidéo responsive */
     .player-container {
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -77,6 +83,7 @@
       padding: 20px;
     }
 
+    /* Panneau latéral des modèles */
     .sidebar {
       background: var(--card-bg);
       border-radius: 12px;
@@ -105,9 +112,11 @@
       border-radius: 8px;
       padding: 8px;
       cursor: pointer;
+      transition: transform 0.1s ease;
     }
 
     .model-card:hover {
+      transform: translateY(-2px);
       outline: 1px solid var(--accent);
     }
 
@@ -141,11 +150,16 @@
       background: rgba(239, 68, 68, 0.1);
       border-radius: 6px;
       border: 1px solid #ef4444;
+      line-height: 1.4;
     }
 
     @media (max-width: 850px) {
-      .layout { grid-template-columns: 1fr; }
-      .sidebar { max-height: 400px; }
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        max-height: 400px;
+      }
     }
   </style>
 </head>
@@ -170,27 +184,24 @@
   </div>
 
   <script>
-    const AFFILIATE_TAG = 'default'; // Ton tag affilié
+    const AFFILIATE_TAG = 'default'; // Remplace par ton tag d'affilié si nécessaire
 
     async function fetchOnlineModels() {
       const listContainer = document.getElementById('modelsList');
       listContainer.innerHTML = 'Chargement en cours...';
 
-      // API Chaturbate via proxy CORS-Anywhere (compatible JS navigateur)
-      const targetApi = `https://chaturbate.com/api/public/affiliates/onlinemodels/?wm=${AFFILIATE_TAG}&limit=20`;
-      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetApi)}`;
-
       try {
-        const response = await fetch(proxyUrl);
+        // Lecture directe du fichier static data.json généré par GitHub Actions
+        const response = await fetch('data.json?cache_bypass=' + Date.now());
         
         if (!response.ok) {
-          throw new Error('Erreur HTTP ' + response.status);
+          throw new Error('Données non disponibles (le premier workflow GitHub est-il terminé ?)');
         }
 
         const data = await response.json();
 
         if (!Array.isArray(data) || data.length === 0) {
-          listContainer.innerHTML = '<p>Aucun modèle en ligne.</p>';
+          listContainer.innerHTML = '<p>Aucun modèle en ligne trouvé.</p>';
           return;
         }
 
@@ -235,6 +246,7 @@
       `;
     }
 
+    // Lancement de la lecture au chargement
     window.addEventListener('DOMContentLoaded', fetchOnlineModels);
   </script>
 
