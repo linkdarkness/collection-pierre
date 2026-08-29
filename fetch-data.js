@@ -1,20 +1,26 @@
 const fs = require('fs');
 
 async function updateModels() {
-  // Remplace par ton URL Google Apps Script exacte
+  // Remplace bien par ton URL d'application Web Google (terminant par /exec)
   const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbxtbjuaqxsqbajrehnP0nJLX6c3mxNxgTSVUGarlg0EBYE3bQ0kOtXt65BMyaIbfdbBQA/exec';
 
   try {
-    const response = await fetch(googleScriptUrl);
+    const response = await fetch(googleScriptUrl, {
+      method: 'GET',
+      redirect: 'follow' // Force le suivi de la redirection Google
+    });
 
-    if (!response.ok) {
-      throw new Error(`Erreur HTTP: ${response.status}`);
+    const rawText = await response.text();
+
+    // Vérifie si la réponse commence par du HTML au lieu du JSON
+    if (rawText.trim().startsWith('<')) {
+      throw new Error("L'URL Google renvoie du HTML. Vérifie que le déploiement est réglé sur 'Qui a accès: N'importe qui'.");
     }
 
-    const data = await response.json();
+    const data = JSON.parse(rawText);
 
     if (!Array.isArray(data)) {
-      throw new Error('Données reçues invalides.');
+      throw new Error('Les données reçues ne forment pas un tableau.');
     }
 
     fs.writeFileSync('./data.json', JSON.stringify(data, null, 2), 'utf8');
