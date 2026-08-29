@@ -204,7 +204,40 @@
     }
 
     // Charger les modèles au démarrage de la page
-    fetchOnlineModels();
+  async function fetchOnlineModels() {
+  const listContainer = document.getElementById('modelsList');
+  listContainer.innerHTML = 'Chargement...';
+
+  try {
+    // Appel vers votre fichier PHP local ou votre serveur Node.js
+    const response = await fetch('get_models.php'); 
+    
+    if (!response.ok) throw new Error("Erreur réseau");
+    
+    const data = await response.json();
+    listContainer.innerHTML = '';
+
+    data.forEach(model => {
+      const card = document.createElement('div');
+      card.className = 'model-card';
+      card.onclick = () => selectModel(model.username);
+
+      card.innerHTML = `
+        <img src="${model.image_url}" alt="${model.username}">
+        <div class="model-info">
+          <span class="model-name">${model.username}</span>
+          <span class="model-stats">👁 ${model.num_users} spectateurs</span>
+        </div>
+      `;
+      listContainer.appendChild(card);
+    });
+
+  } catch (error) {
+    listContainer.innerHTML = '<p style="color:#ef4444;">Erreur de chargement de l\'API.</p>';
+    console.error('Erreur API:', error);
+  }
+}
+);
   </script>
 
 </body>
