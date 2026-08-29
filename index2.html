@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plateforme Live</title>
+  <title>Directs Live</title>
   <style>
     :root {
       --bg: #0f172a;
@@ -26,9 +26,6 @@
     header {
       padding: 16px 24px;
       background: var(--card-bg);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       border-bottom: 1px solid #334155;
     }
 
@@ -73,8 +70,6 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      overflow-y: auto;
-      max-height: calc(100vh - 150px);
     }
 
     .model-btn {
@@ -105,7 +100,6 @@
 
     @media (max-width: 850px) {
       .layout { grid-template-columns: 1fr; }
-      .models-list { max-height: 300px; }
     }
   </style>
 </head>
@@ -118,9 +112,9 @@
   <div class="layout">
     <main>
       <div class="player-container" id="player">
-        <!-- Lecteur actif par défaut -->
+        <!-- L'URL /embed/ est la SEULE acceptée dans un iframe -->
         <iframe 
-          src="https://chaturbate.com/in/?tour=mL83&camp=default&track=default" 
+          src="https://chaturbate.com/embed/sweet_statue/" 
           allow="autoplay; fullscreen" 
           allowfullscreen>
         </iframe>
@@ -128,23 +122,15 @@
     </main>
 
     <aside class="sidebar">
-      <h2>Sélectionner un Salon</h2>
-      <div class="models-list" id="modelsList">
-        <!-- Liste statique d'exemples / salons populaires -->
-        <button class="model-btn" onclick="loadRoom('female')">
-          <span>Salon Femmes</span>
+      <h2>Modèles en vedette</h2>
+      <div class="models-list">
+        <!-- Remplace les pseudos par ceux que tu souhaites afficher -->
+        <button class="model-btn" onclick="loadModel('dreamsweetgirl')">
+          <span>Modèle 1</span>
           <span class="live-dot"></span>
         </button>
-        <button class="model-btn" onclick="loadRoom('couples')">
-          <span>Salon Couples</span>
-          <span class="live-dot"></span>
-        </button>
-        <button class="model-btn" onclick="loadRoom('male')">
-          <span>Salon Hommes</span>
-          <span class="live-dot"></span>
-        </button>
-        <button class="model-btn" onclick="loadRoom('trans')">
-          <span>Salon Trans</span>
+        <button class="model-btn" onclick="loadModel('mistress_k')">
+          <span>Modèle 2</span>
           <span class="live-dot"></span>
         </button>
       </div>
@@ -152,16 +138,12 @@
   </div>
 
   <script>
-    const TRACK_TAG = 'default'; // Ton tag d'affiliation
-
-    function loadRoom(gender) {
+    function loadModel(username) {
       const player = document.getElementById('player');
-      // Génère l'embed officiel par catégorie sans API
-      const embedUrl = `https://chaturbate.com/in/?tour=mL83&camp=default&track=${TRACK_TAG}&gender=${gender}`;
-
+      // Intégration du lecteur vidéo officiel
       player.innerHTML = `
         <iframe 
-          src="${embedUrl}" 
+          src="https://chaturbate.com/embed/${encodeURIComponent(username)}/" 
           allow="autoplay; fullscreen"
           allowfullscreen>
         </iframe>
