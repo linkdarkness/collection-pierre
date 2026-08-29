@@ -161,7 +161,54 @@
     const AFFILIATE_TAG = 'default'; // Remplacez par votre tag affilié si vous en avez un
 
     async function fetchOnlineModels() {
-      const listContainer = document.getElementById('modelsList');
+  const listContainer = document.getElementById('modelsList');
+  listContainer.innerHTML = 'Chargement des modèles...';
+
+  try {
+    // Appelle votre propre serveur PHP au lieu d'un proxy externe
+    const response = await fetch('api.php?track=' + AFFILIATE_TAG);
+    
+    if (!response.ok) {
+      throw new Error('Erreur serveur (' + response.status + ')');
+    }
+
+    const data = await response.json();
+
+    if (!Array.isArray(data) || data.length === 0) {
+      listContainer.innerHTML = '<p>Aucun modèle en ligne pour le moment.</p>';
+      return;
+    }
+
+    listContainer.innerHTML = '';
+
+    data.forEach(model => {
+      const card = document.createElement('div');
+      card.className = 'model-card';
+      card.onclick = () => selectModel(model.username);
+
+      card.innerHTML = `
+        <img src="${model.image_url}" alt="${model.username}" loading="lazy">
+        <div class="model-info">
+          <span class="model-name">${model.username}</span>
+          <span class="model-stats">👁 ${model.num_users || 0} spectateurs</span>
+        </div>
+      `;
+      listContainer.appendChild(card);
+    });
+
+  } catch (error) {
+    console.error('Détail de l\'erreur :', error);
+    listContainer.innerHTML = `
+      <div class="error-box">
+        <strong>Erreur de chargement :</strong><br>
+        ${error.message}.<br><br>
+        <em>Si vous testez en local sans serveur web (ex: protocole file://), hébergez les fichiers sur un serveur PHP (Apache/Nginx).</em>
+      </div>
+    `;
+  }
+}
+
+ document.getElementById('modelsList');
       listContainer.innerHTML = 'Chargement des modèles...';
 
       // URL API officielle
