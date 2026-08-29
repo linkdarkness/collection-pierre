@@ -2,7 +2,7 @@ const fs = require('fs');
 
 async function updateModels() {
   // Remplace bien par ton URL d'application Web Google (terminant par /exec)
-  const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbxtbjuaqxsqbajrehnP0nJLX6c3mxNxgTSVUGarlg0EBYE3bQ0kOtXt65BMyaIbfdbBQA/exec';
+  const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbzCnTVBr68vot7fDAgyoiRZyKUpDMC1wTPzjTlARIL76nRLUceOOhQpiZCleprGRnZ3TA/exec';
 
   try {
     const response = await fetch(googleScriptUrl, {
