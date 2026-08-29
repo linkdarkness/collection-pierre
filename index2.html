@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Lecteur de Live Chaturbate</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; background: #121212; color: white; }
+    .search-box { margin: 20px; }
+    input, button { padding: 10px; font-size: 16px; }
+    iframe { border: none; max-width: 100%; }
+  </style>
+</head>
+<body>
+
+  <h1>Regarder une modèle en direct</h1>
+
+  <div class="search-box">
+    <input type="text" id="modelInput" placeholder="Entrez le pseudo de la modèle...">
+    <button onclick="loadStream()">Charger le live</button>
+  </div>
+
+  <div id="playerContainer">
+    <!-- L'iframe s'affichera ici -->
+  </div>
+
+  <script>
+    function loadStream() {
+      const username = document.getElementById('modelInput').value.trim();
+      const container = document.getElementById('playerContainer');
+
+      if (!username) {
+        alert('Veuillez entrer un pseudo.');
+        return;
+      }
+
+      // Remplacez 'YOUR_AFFILIATE_TAG' par votre identifiant affilié Chaturbate
+      const embedUrl = `https://chaturbate.com/in/?tour=mL83&camp=default&track=YOUR_AFFILIATE_TAG&room=${encodeURIComponent(username)}`;
+
+      container.innerHTML = `
+        <iframe 
+          src="${embedUrl}" 
+          width="854" 
+          height="480" 
+          allowfullscreen>
+        </iframe>
+      `;
+    }
+  </script>
+
+</body>
+</html>
