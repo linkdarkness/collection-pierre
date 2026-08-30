@@ -33,3 +33,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menuToggle');
+    const menu = document.getElementById('menu');
+
+    if (menuToggle && menu) {
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('open'); // Déclenche l'animation du burger en X
+            menu.classList.toggle('active');     // Affiche ou masque le menu
+        });
+    }
+});
+
