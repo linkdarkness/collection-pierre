@@ -1,373 +1,130 @@
-/* ===== HEADER ===== */
-
-header{
-    background:#1a1a1a;
-    color:white;
-    padding:20px;
-    position:relative;
-}
-
-header h1{
-    text-align:center;
-}
-
-/* ===== MENU ===== */
-
-#menu{
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:15px;
-
-    margin-top:20px;
-
-}
-
-#menu button{
-
-    background:#d6b36c;
-
-    border:none;
-
-    border-radius:25px;
-
-    padding:12px 22px;
-
-    cursor:pointer;
-
-    transition:.3s;
-
-}
-
-#menu button:hover{
-
-    background:white;
-
-}
-
-/* ===== VERSION MOBILE ===== */
-
-@media(max-width:768px){
-
-
-#menu{
-
-display:none;
-
-flex-direction:column;
-
-width:100%;
-
-margin-top:25px;
-
-animation:apparition .3s;
-
-}
-
-#menu.active{
-
-display:flex;
-
-}
-
-#menu button{
-
-width:100%;
-
-}
-
-}
-
-@keyframes apparition{
-
-from{
-
-opacity:0;
-
-transform:translateY(-10px);
-
-}
-
-to{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-}
+/* ===== STYLES GÉNÉRAUX ===== */
 body {
-    margin:0;
+    margin: 0;
     font-family: Arial, sans-serif;
-    background:#111;
-    color:white;
+    background: #111;
+    color: white;
 }
 
-
-header {
-    text-align:center;
-    padding:50px;
-    background:#1c1c1c;
+img {
+    max-width: 100%;
+    display: block;
 }
-
-
-header h1 {
-    font-size:40px;
-    color:#d9b36c;
-}
-
-
-nav {
-    background:#000;
-    padding:15px;
-    text-align:center;
-}
-
-
-nav a {
-    color:white;
-    text-decoration:none;
-    margin:20px;
-}
-
-
-.hero {
-    padding:80px 20px;
-    text-align:center;
-    background:
-    linear-gradient(
-    rgba(0,0,0,.6),
-    rgba(0,0,0,.8)
-    );
-}
-
-
-section {
-    padding:40px;
-}
-
 
 h2 {
-    text-align:center;
-    color:#d9b36c;
+    text-align: center;
+    color: #d9b36c;
 }
 
-
-.cartes{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
-    gap:30px;
+section {
+    padding: 40px;
 }
 
-
-.pierre {
-    background:#222;
-    width:280px;
-    border-radius:15px;
-    overflow:hidden;
-    text-align:center;
-    box-shadow:0 0 20px #000;
+/* ===== EN-TÊTE (HEADER) ===== */
+header {
+    background: #1a1a1a;
+    color: white;
+    padding: 20px;
+    position: relative;
 }
 
-
-.pierre img {
-    width:100%;
-    height:220px;
-    object-fit:cover;
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
-
-.pierre h3 {
-    color:#d9b36c;
+header h1 {
+    font-size: 40px;
+    color: #d9b36c;
+    margin: 0;
+    text-align: center;
 }
 
-
-.galerie {
-    display:flex;
-    justify-content:center;
-    gap:20px;
-    flex-wrap:wrap;
+/* ===== MENU DESKTOP ===== */
+#menu {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
 }
 
-
-.galerie img {
-    width:300px;
-    height:300px;
-    object-fit:cover;
-    border-radius:15px;
+#menu a {
+    text-decoration: none;
 }
 
-
-footer {
-    text-align:center;
-    padding:20px;
-    background:#000;
+#menu button {
+    background: #d6b36c;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 22px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
 }
+
+#menu button:hover {
+    background: white;
+}
+
+/* ===== BOUTON BURGER (Caché sur PC) ===== */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 10;
+}
+
+.menu-toggle span {
+    width: 100%;
+    height: 3px;
+    background-color: #d9b36c;
+    border-radius: 3px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: left center;
+}
+
+/* ===== RECHERCHE ===== */
 .recherche {
-    text-align:center;
-    margin:30px;
+    text-align: center;
+    margin: 30px;
 }
-
 
 #barreRecherche {
-    width:300px;
-    padding:15px;
-    border-radius:30px;
-    border:none;
-    font-size:18px;
+    width: 300px;
+    padding: 15px;
+    border-radius: 30px;
+    border: none;
+    font-size: 18px;
 }
 
-
-
-nav button {
-    background:#d9b36c;
-    border:none;
-    padding:12px 25px;
-    margin:10px;
-    border-radius:25px;
-    cursor:pointer;
-    font-size:16px;
+/* ===== CARTES & GRILLE ===== */
+.cartes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
 }
 
-
-nav button:hover {
-    background:#fff;
+.pierre {
+    background: #222;
+    width: 280px;
+    border-radius: 15px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 0 20px #000;
+    margin: 0 auto;
 }
 
-/* ========================= */
-/*        TABLETTE           */
-/* ========================= */
-
-@media (max-width: 992px) {
-
-    header h1{
-        font-size:32px;
-    }
-
-    .cartes{
-        justify-content:center;
-    }
-
-    .pierre{
-        width:45%;
-    }
-
-    .galerie img{
-        width:45%;
-        height:auto;
-    }
-
+.pierre h3 {
+    color: #d9b36c;
 }
-
-
-/* ========================= */
-/*        SMARTPHONE         */
-/* ========================= */
-
-@media (max-width:768px){
-
-    header{
-        padding:30px 15px;
-    }
-
-    header h1{
-        font-size:28px;
-    }
-
-    nav{
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        gap:10px;
-    }
-
-    nav button{
-        width:90%;
-        max-width:350px;
-        margin:0;
-    }
-
-    section{
-        padding:20px;
-    }
-
-    .hero{
-        padding:40px 20px;
-    }
-
-    .hero h2{
-        font-size:26px;
-    }
-
-    .hero p{
-        font-size:16px;
-    }
-
-    .cartes{
-        flex-direction:column;
-        align-items:center;
-    }
-
-    .pierre{
-        width:100%;
-        max-width:420px;
-    }
-
-    .pierre img{
-        height:auto;
-    }
-
-    .galerie{
-        display:grid;
-        grid-template-columns:1fr;
-        gap:15px;
-    }
-
-    .galerie img{
-        width:100%;
-        height:auto;
-    }
-
-    #barreRecherche{
-        width:90%;
-        font-size:16px;
-    }
-
-}
-
-
-/* ========================= */
-/*      PETITS MOBILES       */
-/* ========================= */
-
-@media (max-width:480px){
-
-    header h1{
-        font-size:22px;
-    }
-
-    .hero h2{
-        font-size:22px;
-    }
-
-    .hero p{
-        font-size:15px;
-    }
-
-    h2{
-        font-size:22px;
-    }
-
-}
-
-img{
-    max-width:100%;
-    display:block;
-}
-
 
 .pierre-card {
     position: relative;
@@ -384,188 +141,172 @@ img{
     transition: transform 0.4s ease;
 }
 
-/* Zone contenant le texte */
 .pierre-info {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     text-align: center;
     color: white;
     padding: 20px;
-
     opacity: 0;
     transition: opacity 0.4s ease;
 }
 
-/* Apparition au survol */
 .pierre-card:hover .pierre-info {
     opacity: 1;
 }
 
-/* Petit zoom de l'image */
 .pierre-card:hover img {
     transform: scale(1.08);
-}
-
-.pierre-info h3 {
-    margin: 0 0 10px;
-    font-size: 24px;
 }
 
 .pierre-info p {
     margin: 0;
     font-size: 15px;
 }
-/* Base de l'en-tête */
-header {
-    position: relative;
-    background-color: #ffffff;
-    padding: 1rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
 
-.header-container {
+/* ===== GALERIE & FOOTER ===== */
+.galerie {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
-/* Styles des liens & boutons dans le menu */
-#menu {
-    display: flex;
-    gap: 10px;
+.galerie img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 15px;
 }
 
-#menu a {
-    text-decoration: none;
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #000;
 }
 
-/* Bouton Burger (caché par défaut sur grand écran) */
-.menu-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 21px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-}
+/* ========================================= */
+/*        MEDIA QUERIES (RESPONSIVE)         */
+/* ========================================= */
 
-.menu-toggle span {
-    width: 100%;
-    height: 3px;
-    background-color: #333;
-    border-radius: 3px;
-    transition: all 0.3s ease;
-}
-
-/* Responsive : Écrans <= 768px */
-@media (max-width: 768px) {
-    .menu-toggle {
-        display: flex; /* Affiche le burger */
+/* TABLETTE (<= 992px) */
+@media (max-width: 992px) {
+    header h1 {
+        font-size: 32px;
     }
 
-    #menu {
-        display: none; /* Cache le menu par défaut */
-        flex-direction: column;
+    .cartes {
+        justify-content: center;
+    }
+
+    .pierre {
         width: 100%;
-        margin-top: 1rem;
+        max-width: 350px;
     }
 
-    #menu.active {
-        display: flex; /* Affiche le menu lorsque la classe active est présente */
-    }
-
-    #menu a button {
-        width: 100%;
-        padding: 12px;
-        text-align: left;
+    .galerie img {
+        width: 45%;
+        height: auto;
     }
 }
 
-/* --- Desktop (Masquage par défaut) --- */
-.menu-toggle {
-    display: none; /* Incalculable / Caché sur grand écran */
-}
-
-/* En-tête classique pour ordinateur */
-#menu {
-    display: flex;
-    gap: 10px;
-}
-
-#menu a {
-    text-decoration: none;
-}
-
-/* --- Version Mobile (768px et moins) --- */
+/* MOBILE (<= 768px) */
 @media (max-width: 768px) {
+    header {
+        padding: 20px 15px;
+    }
+
     .header-container {
-        display: flex;
-        align-items: center;
-        gap: 15px;
+        justify-content: space-between;
     }
 
-    /* Affichage et style du burger à gauche */
+    header h1 {
+        font-size: 24px;
+    }
+
+    /* Affichage du bouton burger à gauche */
     .menu-toggle {
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        width: 28px;
-        height: 21px;
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        padding: 0;
-        z-index: 10;
     }
 
-    /* Trait du burger */
-    .menu-toggle span {
-        width: 100%;
-        height: 3px;
-        background-color: #333;
-        border-radius: 3px;
-        transition: transform 0.3s ease, opacity 0.3s ease;
-        transform-origin: left center;
-    }
-
-    /* --- Animation en "X" quand le menu est ouvert --- */
+    /* Animation du Burger en "X" */
     .menu-toggle.open span:nth-child(1) {
         transform: rotate(45deg);
     }
 
     .menu-toggle.open span:nth-child(2) {
-        opacity: 0; /* Masque la barre du milieu */
+        opacity: 0;
     }
 
     .menu-toggle.open span:nth-child(3) {
         transform: rotate(-45deg);
     }
 
-    /* --- Affichage / Masquage du menu mobile --- */
+    /* Gestion du menu déroulant */
     #menu {
         display: none;
         flex-direction: column;
         width: 100%;
-        margin-top: 1rem;
+        margin-top: 15px;
+        gap: 10px;
     }
 
     #menu.active {
         display: flex;
+        animation: apparition 0.3s forwards;
     }
 
-    #menu a button {
+    #menu button {
         width: 100%;
         padding: 12px;
-        text-align: left;
+        text-align: center;
+    }
+
+    section {
+        padding: 20px;
+    }
+
+    .galerie {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .galerie img {
+        width: 100%;
+        height: auto;
+    }
+
+    #barreRecherche {
+        width: 90%;
+        font-size: 16px;
+    }
+}
+
+/* PETITS MOBILES (<= 480px) */
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 20px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+}
+
+/* ANIMATION D'APPARITION DU MENU */
+@keyframes apparition {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
