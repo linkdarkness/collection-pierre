@@ -422,3 +422,71 @@ img{
     margin: 0;
     font-size: 15px;
 }
+/* Base de l'en-tête */
+header {
+    position: relative;
+    background-color: #ffffff;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Styles des liens & boutons dans le menu */
+#menu {
+    display: flex;
+    gap: 10px;
+}
+
+#menu a {
+    text-decoration: none;
+}
+
+/* Bouton Burger (caché par défaut sur grand écran) */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.menu-toggle span {
+    width: 100%;
+    height: 3px;
+    background-color: #333;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+/* Responsive : Écrans <= 768px */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex; /* Affiche le burger */
+    }
+
+    #menu {
+        display: none; /* Cache le menu par défaut */
+        flex-direction: column;
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    #menu.active {
+        display: flex; /* Affiche le menu lorsque la classe active est présente */
+    }
+
+    #menu a button {
+        width: 100%;
+        padding: 12px;
+        text-align: left;
+    }
+}
