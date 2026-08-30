@@ -23,16 +23,6 @@ recherche.addEventListener("keyup", function(){
 
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const menuToggle = document.getElementById('menuToggle');
-    const menu = document.getElementById('menu');
-
-    if (menuToggle && menu) {
-        menuToggle.addEventListener('click', () => {
-            menu.classList.toggle('active');
-        });
-    }
-});
 
 document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.getElementById('menuToggle');
