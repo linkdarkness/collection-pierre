@@ -11,35 +11,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ===== 2. GESTION DE LA BARRE DE RECHERCHE (SANS ACCENTS) =====
+    const recherche = document.getElementById('barreRecherche');
+    const pierres = document.querySelectorAll('.pierre');
 
-// ===== GESTION DE LA BARRE DE RECHERCHE (SANS ACCENTS) =====
-const recherche = document.getElementById('barreRecherche');
-const pierres = document.querySelectorAll('.pierre');
+    if (recherche && pierres.length > 0) {
+        // Fonction pour retirer les accents d'un texte
+        const sansAccents = (texte) => {
+            return texte
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase();
+        };
 
-if (recherche && pierres.length > 0) {
-    // Fonction pour retirer les accents d'un texte
-    const sansAccents = (texte) => {
-        return texte
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .toLowerCase();
-    };
+        recherche.addEventListener('input', () => {
+            // Nettoyage de la saisie utilisateur (sans accent + minuscules)
+            const texteSaisi = sansAccents(recherche.value.trim());
 
-    recherche.addEventListener('input', () => {
-        // Nettoyage de la saisie utilisateur (sans accent + minuscules)
-        const texteSaisi = sansAccents(recherche.value.trim());
+            pierres.forEach((pierre) => {
+                const nomOriginal = pierre.dataset.nom || '';
+                // Nettoyage du nom de la pierre (sans accent + minuscules)
+                const nomClean = sansAccents(nomOriginal);
 
-        pierres.forEach((pierre) => {
-            const nomOriginal = pierre.dataset.nom || '';
-            // Nettoyage du nom de la pierre (sans accent + minuscules)
-            const nomClean = sansAccents(nomOriginal);
-
-            if (nomClean.includes(texteSaisi)) {
-                pierre.style.display = ''; // Affiche la pierre
-            } else {
-                pierre.style.display = 'none'; // Masque la pierre
-            }
+                if (nomClean.includes(texteSaisi)) {
+                    pierre.style.display = ''; // Affiche la pierre
+                } else {
+                    pierre.style.display = 'none'; // Masque la pierre
+                }
+            });
         });
-    });
-}
+    }
 
+});
