@@ -29,10 +29,11 @@ header {
 }
 
 .header-container {
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
-    position: relative;
+    justify-content: center; /* Centre le h1 au milieu */
+    width: 100%;
 }
 
 header h1 {
@@ -220,44 +221,20 @@ footer {
     header {
         padding: 20px 15px;
     }
-/* Positionnement relatif pour servir de repère au bouton burger */
-.header-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Centre le h1 au milieu */
-    width: 100%;
-}
 
-/* Le h1 est parfaitement centré */
-header h1 {
-    font-size: 40px;
-    color: #d9b36c;
-    margin: 0;
-    text-align: center;
-}
-
-/* Le burger est sorti du flux normal et ancré à gauche */
-@media (max-width: 768px) {
+    /* Le burger passe en absolu à gauche sans décaler le h1 centré */
     .menu-toggle {
         display: flex;
         position: absolute;
         left: 0;
         top: 50%;
-        transform: translateY(-50%); /* Centrage vertical parfait */
+        transform: translateY(-50%);
     }
 
     header h1 {
         font-size: 24px;
         width: 100%;
-        padding: 0 40px; /* Évite que le texte ne chevauche le burger sur petits écrans */
-    }
-}
-
-
-    /* Affichage du bouton burger à gauche */
-    .menu-toggle {
-        display: flex;
+        padding: 0 35px; /* Évite de coller au burger */
     }
 
     /* Animation du Burger en "X" */
@@ -273,7 +250,7 @@ header h1 {
         transform: rotate(-45deg);
     }
 
-    /* Gestion du menu déroulant */
+    /* Menu déroulant mobile */
     #menu {
         display: none;
         flex-direction: column;
